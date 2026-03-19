@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방문을 콘텐츠로, 콘텐츠를 매출로</title>
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --surface: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --primary: #5b5cf0;
+      --primary-2: #7c3aed;
+      --soft: #eef2ff;
+      --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --max: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #eef2ff 0%, transparent 30%),
+        radial-gradient(circle at top right, #f5e8ff 0%, transparent 28%),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 48px), var(--max));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+
+    .section-head h2 {
+      margin: 18px 0 14px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .navbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 16px 0;
+      backdrop-filter: blur(14px);
+      background: rgba(247, 248, 252, 0.65);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .hero {
+      padding: 72px 0 48px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 20px 0 18px;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+    }
+
+    .hero-copy p {
+      margin: 0 0 28px;
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .hero-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 560px;
+    }
+
+    .card-float,
+    .phone,
+    .kiosk {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid rgba(229,231,235,0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .kiosk {
+      width: 62%;
+      height: 500px;
+      left: 0;
+      top: 24px;
+      border-radius: 28px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg, #f9fafb 0%, #eef2ff 100%);
+    }
+
+    .kiosk-frame {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background: #111827;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .kiosk-screen {
+      flex: 1;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, #ddd6fe, #bfdbfe 55%, #f5d0fe);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kiosk-screen::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.35);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0));
+    }
+
+    .kiosk-slot {
+      height: 14px;
+      width: 120px;
+      background: #374151;
+      border-radius: 999px;
+      margin: 0 auto;
+    }
+
+    .phone {
+      width: 48%;
+      height: 460px;
+      right: 0;
+      top: 0;
+      border-radius: 34px;
+      padding: 14px;
+      background: #111827;
+      transform: rotate(5deg);
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-top {
+      padding: 16px 18px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .phone-post {
+      margin: 0 14px 14px;
+      padding: 14px;
+      border-radius: 20px;
+      background: #f9fafb;
+      border: 1px solid #eef2f7;
+    }
+
+    .phone-image {
+      height: 190px;
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, #fde68a, #fca5a5 45%, #c4b5fd);
+      margin-bottom: 12px;
+    }
+
+    .line {
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    .line.sm { width: 42%; }
+    .line.md { width: 70%; }
+    .line.lg { width: 92%; }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .card-float {
+      right: 18px;
+      bottom: 10px;
+      width: 270px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .card-float h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .card-float p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .split-card {
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .split-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .split-card h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .split-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .split-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .split-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #374151;
+      font-size: 15px;
+    }
+
+    .split-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .value-card,
+    .flow-card,
+    .ref-card,
+    .stat-card,
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .value-card {
+      padding: 28px;
+    }
+
+    .value-icon,
+    .flow-step {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      color: var(--primary);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .value-card h3,
+    .flow-card h3,
+    .faq-item h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .value-card p,
+    .flow-card p,
+    .faq-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .flow-card {
+      padding: 28px;
+      min-height: 240px;
+    }
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .ref-card {
+      overflow: hidden;
+    }
+
+    .ref-visual {
+      height: 220px;
+      background:
+        linear-gradient(135deg, #dbeafe, #ede9fe 48%, #fce7f3);
+      position: relative;
+    }
+
+    .ref-visual::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.55);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0));
+    }
+
+    .ref-copy {
+      padding: 20px;
+    }
+
+    .ref-copy h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .ref-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stats-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .stat-card {
+      padding: 30px 24px;
+      text-align: center;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: clamp(34px, 5vw, 54px);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .duo {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .panel {
+      padding: 32px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 {
+      margin: 0 0 12px;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+    }
+
+    .panel p {
+      margin: 0 0 20px;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 18px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      padding: 24px;
+    }
+
+    .cta-box {
+      padding: 42px;
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(91,92,240,0.96), rgba(124,58,237,0.96));
+      color: #fff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-box h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .cta-box p {
+      margin: 0 0 26px;
+      color: rgba(255,255,255,0.85);
+      font-size: 17px;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    footer {
+      padding: 32px 0 56px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .split-grid,
+      .value-grid,
+      .flow-grid,
+      .ref-grid,
+      .stats-wrap,
+      .duo {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 620px;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .section {
+        padding: 72px 0;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .hero-copy p {
+        font-size: 17px;
+      }
+
+      .hero-visual {
+        min-height: 520px;
+      }
+
+      .kiosk {
+        width: 64%;
+        height: 420px;
+      }
+
+      .phone {
+        width: 52%;
+        height: 390px;
+      }
+
+      .card-float {
+        width: 220px;
+      }
+
+      .split-card,
+      .value-card,
+      .flow-card,
+      .panel,
+      .faq-item {
+        padding: 24px;
+      }
+
+      .cta-box {
+        padding: 30px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar-wrap">
+    <div class="container navbar">
+      <a href="#" class="logo">PHOTO<span>FLOW</span></a>
+
+      <nav class="nav-menu">
+        <a href="#store">매장용</a>
+        <a href="#brand">브랜드용</a>
+        <a href="#reference">레퍼런스</a>
+        <a href="#faq">문의 전 확인</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="#store">매장용</a>
+        <a class="btn btn-primary" href="#cta">문의하기</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">방문을 콘텐츠로, 콘텐츠를 매출로</div>
+          <h1>
+            방문을 콘텐츠로 만들고,<br />
+            콘텐츠를 매출로 바꿉니다
+          </h1>
+          <p>
+            오프라인 공간에서 촬영된 순간을 UGC와 데이터로 연결하는 포토 플랫폼.
+            상시매장에는 재방문과 운영 데이터를, 팝업·행사에는 UGC 확산과 SNS 노출을 제공합니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#store">매장 운영자용 보기</a>
+            <a class="btn btn-secondary" href="#brand">브랜드·마케터용 보기</a>
+          </div>
+          <div class="hero-note">
+            키오스크 촬영 → QR 진입 → 사진 생성/꾸미기 → 커뮤니티 또는 SNS 공유
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="kiosk">
+            <div class="kiosk-frame">
+              <div class="kiosk-screen"></div>
+              <div class="kiosk-slot"></div>
+            </div>
+          </div>
+
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-top">
+                <span>Store Feed</span>
+                <span>12:30</span>
+              </div>
+              <div class="phone-post">
+                <div class="phone-image"></div>
+                <div class="line lg"></div>
+                <div class="line md"></div>
+                <div class="line sm"></div>
+                <div class="chips">
+                  <span class="chip">좋아요</span>
+                  <span class="chip">댓글</span>
+                  <span class="chip">공유</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-float">
+            <h4>브랜드 팝업도, 상시매장도</h4>
+            <p>
+              하나의 촬영 경험을 두 가지 비즈니스 목적에 맞게 전개합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="store">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">두 타겟, 두 가지 전개</div>
+          <h2>같은 촬영 경험을, 다른 성과로 연결합니다</h2>
+          <p>
+            상시매장에는 단골 전환과 운영 데이터를, 팝업·행사에는 UGC 생성과 바이럴 확산을 설계합니다.
+          </p>
+        </div>
+
+        <div class="split-grid">
+          <article class="split-card">
+            <div class="split-badge">상시매장용</div>
+            <h3>고객을 단골로 만드는 매장형 포토 SaaS</h3>
+            <p>
+              방문 고객을 QR로 온라인에 연결해 매장 전용 커뮤니티, 운영 데이터,
+              재방문 도구로 전환합니다.
+            </p>
+            <ul class="split-list">
+              <li>키오스크 촬영 후 매장 전용 페이지 진입</li>
+              <li>사진 + 짧은 글 + 댓글 + 좋아요 + 팔로우</li>
+              <li>매장 반응 데이터 확인 및 콘텐츠 관리</li>
+              <li>향후 쿠폰·이벤트·재방문 기능 확장</li>
+            </ul>
+            <a class="btn btn-primary" href="#cta">매장 도입 문의</a>
+          </article>
+
+          <article class="split-card" id="brand">
+            <div class="split-badge">팝업·행사용</div>
+            <h3>UGC와 SNS 확산을 만드는 브랜드 캠페인 툴</h3>
+            <p>
+              사진에 브랜드 프레임을 적용하고, 스티커로 꾸민 뒤,
+              인스타그램 등 SNS로 바로 공유할 수 있게 만듭니다.
+            </p>
+            <ul class="split-list">
+              <li>행사 현장 사진 자동 생성 및 QR 제공</li>
+              <li>웹에서 스티커·프레임 커스터마이징</li>
+              <li>SNS 공유 유도와 브랜드 노출 확장</li>
+              <li>UGC 수, 참여율, 공유량 등 데이터 제공</li>
+            </ul>
+            <a class="btn btn-secondary" href="#cta">브랜드 제안 문의</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">공통 가치</div>
+          <h2>현장에서 콘텐츠가 만들어지고, 바로 퍼지고, 다시 고객으로 돌아옵니다</h2>
+          <p>
+            단순 촬영 서비스가 아니라 콘텐츠 생성, 확산, 데이터 축적, 재방문까지 하나의 흐름으로 설계합니다.
+          </p>
+        </div>
+
+        <div class="value-grid">
+          <div class="value-card">
+            <div class="value-icon">01</div>
+            <h3>생성</h3>
+            <p>
+              촬영한 사진을 QR로 이어 받아 UGC 또는 공유형 콘텐츠로 전환합니다.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">02</div>
+            <h3>확산</h3>
+            <p>
+              브랜드 프레임, 스티커, 댓글, 좋아요, SNS 공유로 노출을 자연스럽게 확대합니다.
+            </p>
+          </div>
+          <div class="value-card">
+            <div class="value-icon">03</div>
+            <h3>전환</h3>
+            <p>
+              상시매장은 재방문과 관계 형성으로, 브랜드는 성과 데이터와 캠페인 자산으로 연결합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">사용 흐름</div>
+          <h2>사용은 간단하고, 결과는 분명합니다</h2>
+          <p>현장에서 바로 경험하고, 모바일에서 완성하고, 온라인으로 퍼뜨립니다.</p>
+        </div>
+
+        <div class="flow-grid">
+          <div class="flow-card">
+            <div class="flow-step">1</div>
+            <h3>키오스크 촬영</h3>
+            <p>매장이나 행사 현장에서 사진을 촬영합니다.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-step">2</div>
+            <h3>QR 접속</h3>
+            <p>촬영 직후 QR로 모바일 페이지에 바로 접속합니다.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-step">3</div>
+            <h3>콘텐츠 생성</h3>
+            <p>사진을 게시글로 남기거나, 프레임·스티커로 꾸밀 수 있습니다.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-step">4</div>
+            <h3>공유와 재방문</h3>
+            <p>SNS 확산, 커뮤니티 반응, 데이터 축적, 재방문 유도까지 연결됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reference">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">레퍼런스 영역</div>
+          <h2>이 자리에 실제 설치 사진과 사용 사례를 넣으면 됩니다</h2>
+          <p>
+            지금은 더미 구조로 넣어두고, 나중에 상시매장 설치컷·팝업 현장컷·실제 UGC 화면으로 교체하면 돼.
+          </p>
+        </div>
+
+        <div class="ref-grid">
+          <div class="ref-card">
+            <div class="ref-visual"></div>
+            <div class="ref-copy">
+              <h3>상시매장 설치 사례</h3>
+              <p>카페, 펍, 편집숍 등 상시 공간용 레퍼런스 영역</p>
+            </div>
+          </div>
+          <div class="ref-card">
+            <div class="ref-visual"></div>
+            <div class="ref-copy">
+              <h3>팝업 현장 사례</h3>
+              <p>브랜드 행사, 뷰티 팝업, 한정 이벤트용 레퍼런스 영역</p>
+            </div>
+          </div>
+          <div class="ref-card">
+            <div class="ref-visual"></div>
+            <div class="ref-copy">
+              <h3>모바일 UGC 화면</h3>
+              <p>사진 생성, 스티커 편집, SNS 공유 화면 예시 영역</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">성과 지표 영역</div>
+          <h2>숫자로 보여주면 설득력이 더 빨라집니다</h2>
+          <p>여기 숫자는 예시값이니까 실제 운영 수치로 교체하면 돼.</p>
+        </div>
+
+        <div class="stats-wrap">
+          <div class="stat-card">
+            <strong>12,000+</strong>
+            <span>누적 촬영 수</span>
+          </div>
+          <div class="stat-card">
+            <strong>8,500+</strong>
+            <span>생성된 UGC</span>
+          </div>
+          <div class="stat-card">
+            <strong>3,200+</strong>
+            <span>SNS 공유 수</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container duo">
+        <div class="panel">
+          <div class="eyebrow">매장 운영자용</div>
+          <h3>이런 분께 적합합니다</h3>
+          <p>
+            방문 고객을 단골로 연결하고 싶고, 사진 경험을 매장 데이터와 재방문 도구로 바꾸고 싶은 공간.
+          </p>
+          <ul class="split-list">
+            <li>상시 방문객이 있는 카페, 펍, 편집숍</li>
+            <li>브랜드 감성이 중요한 공간</li>
+            <li>고객 반응과 운영 데이터를 보고 싶은 매장</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="eyebrow">브랜드·마케터용</div>
+          <h3>이런 캠페인에 적합합니다</h3>
+          <p>
+            팝업이나 행사에서 방문자 참여를 유도하고, 촬영 경험을 UGC와 SNS 노출로 전환하고 싶은 브랜드.
+          </p>
+          <ul class="split-list">
+            <li>뷰티, 패션, 캐릭터, 라이프스타일 브랜드</li>
+            <li>팝업스토어, 행사, 시즌 프로모션</li>
+            <li>브랜드 프레임·스티커와 궁합이 좋은 캠페인</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">문의 전 확인</div>
+          <h2>홈페이지에서 바로 답할 수 있어야 하는 질문들</h2>
+          <p>실제 사이트에서는 이 아래를 FAQ나 접이식 아코디언으로 바꿔도 좋아.</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>상시매장과 팝업·행사를 동시에 대응할 수 있나요?</h3>
+            <p>가능합니다. 같은 촬영 경험을 기반으로 하되, 매장형은 재방문·운영 데이터 중심, 팝업형은 UGC·노출 중심으로 다르게 설계합니다.</p>
+          </div>
+          <div class="faq-item">
+            <h3>브랜드에도 데이터를 제공하나요?</h3>
+            <p>네. 팝업·행사형에서도 촬영 수, 참여 수, UGC 생성, 공유량 등 브랜드 관점에서 의미 있는 데이터를 제공하는 구조로 가져갈 수 있습니다.</p>
+          </div>
+          <div class="faq-item">
+            <h3>사진 꾸미기 기능은 어떻게 활용되나요?</h3>
+            <p>브랜드 프레임을 기본으로 제공하고, 스티커 편집 기능을 추가해 방문자가 직접 이미지를 완성한 뒤 SNS에 공유하도록 유도합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>당신의 공간도,<br />콘텐츠가 만들어지는 장소가 될 수 있습니다</h2>
+          <p>
+            상시매장 도입이든 브랜드 팝업 제안이든,
+            먼저 맞는 방식부터 이야기해보세요.
+          </p>
+          <div class="cta-actions">
+            <a class="btn btn-white" href="mailto:hello@example.com">매장 도입 문의</a>
+            <a class="btn btn-ghost" href="mailto:hello@example.com">브랜드 제안 문의</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© 2026 PHOTOFLOW. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">회사 소개</a>
+        <a href="#">레퍼런스</a>
+        <a href="#">문의</a>
+        <a href="#">이용약관</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
